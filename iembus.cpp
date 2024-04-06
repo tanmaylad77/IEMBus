@@ -115,7 +115,7 @@ twai_message_t IEMBus::ready_msg(uint32_t message_id, uint32_t data_length, uint
 
 // Transmit
 bool IEMBus::transmit(twai_message_t tx_message) {
-    if (twai_transmit(&message, pdMS_TO_TICKS(1000)) == ESP_OK) {
+    if (twai_transmit(&tx_message, pdMS_TO_TICKS(1000)) == ESP_OK) {
         Serial.println("[OK] Message queued for transmission");
     } else {
         Serial.println("[ERROR] Could not transmit");
