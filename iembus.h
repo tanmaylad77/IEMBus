@@ -5,6 +5,25 @@
 #include "driver/twai.h"
 #include "Arduino.h"
 
+enum CANID_t {
+    HallEffect = 0b0000,
+    DutyCycle = 0b0011,
+    BatteryVoltage = 0b0100,
+    BatteryCurrent = 0b0110,
+    ButtonPresses = 0b1001,
+    RampSetting = 0b1010,
+};
+
+enum CANCode_t {
+    TelemetryCode = 0b0001,
+    AllCode = 0b0000,
+};
+
+enum CANMask_t {
+    TelemetryMask = 0b1110,
+    AllMask = 0b1111,
+};
+
 class IEMBus 
 {
     private:

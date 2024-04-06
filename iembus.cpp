@@ -5,7 +5,7 @@ IEMBus::IEMBus() {
 }
 
 // Initialise CAN chip here
-bool IEMBus::init(uint8_t rx_pin = 43, uint8_t tx_pin = 44, uint8_t polling_rate_ms = 10) {
+bool IEMBus::init(uint8_t rx_pin = 43, uint8_t tx_pin = 44, uint8_t polling_rate_ms = 10, CANCode_t rx_code, CANMask_t rx_mask) {
     RX_PIN = rx_pin;
     TX_PIN = tx_pin;
     POLLING_RATE_MS = polling_rate_ms;
@@ -13,7 +13,14 @@ bool IEMBus::init(uint8_t rx_pin = 43, uint8_t tx_pin = 44, uint8_t polling_rate
     // EDIT THESE FOR NOW, DEFINE FUNCTIONS TO SET THESE - TO:DO
     g_config = TWAI_GENERAL_CONFIG_DEFAULT((gpio_num_t)TX_PIN, (gpio_num_t)RX_PIN, TWAI_MODE_LISTEN_ONLY);
     t_config = TWAI_TIMING_CONFIG_250KBITS();
-    f_config = TWAI_FILTER_CONFIG_ACCEPT_ALL();
+    if (rx_code = AllCode) {
+        f_config = TWAI_FILTER_CONFIG_ACCEPT_ALL();
+    }
+    else {
+        f_config.acceptance_code = rx_code;
+        f_config.acceptance_mask = rx_mask;
+        f_config.single_filter = true;
+    }
     //
 
     if (twai_driver_install(&g_config, &t_config, &f_config) == ESP_OK) {
@@ -105,9 +112,9 @@ void IEMBus::print_msg_bytes() {
 }
 
 // Message maker
-twai_message_t IEMBus::ready_msg(uint32_t message_id, uint32_t data_length, uint8_t data[8]) {
+twai_message_t IEMBus::ready_msg(CANID_t message_id, uint32_t data_length, uint8_t data[8]) {
     twai_message_t tx_message;
-    tx_message.identifier = message_id;
+    tx_message.identifier = (uint32_t) message_id;
     tx_message.data_length_code = data_length; 
 
     return tx_message;
