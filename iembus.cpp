@@ -9,10 +9,6 @@ bool IEMBus::init(uint8_t rx_pin = 43, uint8_t tx_pin = 44, uint8_t polling_rate
     RX_PIN = rx_pin;
     TX_PIN = tx_pin;
     POLLING_RATE_MS = polling_rate_ms;
-    return true;
-}
-
-bool IEMBus::start(uint32_t alerts_to_enable) {
 
     // EDIT THESE FOR NOW, DEFINE FUNCTIONS TO SET THESE - TO:DO
     g_config = TWAI_GENERAL_CONFIG_DEFAULT((gpio_num_t)TX_PIN, (gpio_num_t)RX_PIN, TWAI_MODE_LISTEN_ONLY);
@@ -28,6 +24,11 @@ bool IEMBus::start(uint32_t alerts_to_enable) {
         Serial.println("ERROR: IEMBus Driver Not Installed");
     }
 
+    return true;
+}
+
+bool IEMBus::start(uint32_t alerts_to_enable) {
+
     if (twai_start() == ESP_OK) {
         ready = true;
         Serial.println("OK: IEMBus Started");
@@ -40,6 +41,10 @@ bool IEMBus::start(uint32_t alerts_to_enable) {
     reconfig_alerts(alerts_to_enable);
 
     return ready;
+}
+
+bool IEMBus::stop() {
+    return (twai_stop());
 }
 
 bool IEMBus::reconfig_alerts(uint32_t alerts_to_enable = TWAI_ALERT_RX_DATA | TWAI_ALERT_ERR_PASS | TWAI_ALERT_BUS_ERROR | TWAI_ALERT_RX_QUEUE_FULL) {
