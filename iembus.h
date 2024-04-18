@@ -61,7 +61,10 @@ class IEMBus
         void print_errors();
         void print_msg_bytes();
 
-        twai_message_t ready_msg(CANID_t message_id, uint32_t data_length, uint8_t data[8]);
+        void float2array(uint8_t data_array[4], float data_float);
+        float array2float(uint8_t data_array[4]);
+
+        twai_message_t ready_msg(CANID_t message_id, uint8_t data_array[4]);
         bool transmit(twai_message_t tx_message);
 
         uint32_t RX_ALERTS = ALERTS;
