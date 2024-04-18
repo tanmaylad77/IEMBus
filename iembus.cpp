@@ -5,13 +5,13 @@ IEMBus::IEMBus() {
 }
 
 // Initialise CAN chip here
-bool IEMBus::init(uint8_t rx_pin = 43, uint8_t tx_pin = 44, uint8_t polling_rate_ms = 10, CANCode_t rx_code=AllCode, CANMask_t rx_mask=AllMask) {
+bool IEMBus::init(uint8_t rx_pin = 43, uint8_t tx_pin = 44, uint8_t polling_rate_ms = 10, CANCode_t rx_code=AllCode, CANMask_t rx_mask=AllMask, twai_mode_t mode) {
     RX_PIN = rx_pin;
     TX_PIN = tx_pin;
     POLLING_RATE_MS = polling_rate_ms;
 
     // EDIT THESE FOR NOW, DEFINE FUNCTIONS TO SET THESE - TO:DO
-    g_config = TWAI_GENERAL_CONFIG_DEFAULT((gpio_num_t)TX_PIN, (gpio_num_t)RX_PIN, TWAI_MODE_NORMAL);
+    g_config = TWAI_GENERAL_CONFIG_DEFAULT((gpio_num_t)TX_PIN, (gpio_num_t)RX_PIN, mode);
     t_config = TWAI_TIMING_CONFIG_250KBITS();
     if (rx_code = AllCode) {
         f_config = TWAI_FILTER_CONFIG_ACCEPT_ALL();

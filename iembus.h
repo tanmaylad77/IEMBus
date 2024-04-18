@@ -51,7 +51,7 @@ class IEMBus
         twai_message_t message;
 
         IEMBus();
-        bool init(uint8_t rx_pin, uint8_t tx_pin, uint8_t polling_rate_ms, CANCode_t rx_code, CANMask_t rx_mask);
+        bool init(uint8_t rx_pin, uint8_t tx_pin, uint8_t polling_rate_ms, CANCode_t rx_code, CANMask_t rx_mask, twai_mode_t mode);
         bool start(uint32_t alerts_to_enable);
         bool stop();
         bool reconfig_alerts(uint32_t alerts_to_enable);
