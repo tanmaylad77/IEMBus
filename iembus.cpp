@@ -5,7 +5,7 @@ IEMBus::IEMBus() {
 }
 
 // Initialise CAN chip here
-bool IEMBus::init(uint8_t rx_pin = 43, uint8_t tx_pin = 44, uint8_t polling_rate_ms = 10, CANCode_t rx_code=AllCode, CANMask_t rx_mask=AllMask, twai_mode_t mode) {
+bool IEMBus::init(uint8_t rx_pin = 43, uint8_t tx_pin = 44, uint8_t polling_rate_ms = 10, CANCode_t rx_code=AllCode, CANMask_t rx_mask=AllMask, twai_mode_t mode=TWAI_MODE_LISTEN_ONLY) {
     RX_PIN = rx_pin;
     TX_PIN = tx_pin;
     POLLING_RATE_MS = polling_rate_ms;
