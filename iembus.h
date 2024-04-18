@@ -37,8 +37,6 @@ class IEMBus
         
         int bus_errors = 0;
         bool ready = false;
-        
-        uint32_t alerts_triggered;
 
         twai_status_info_t twaistatus;
 
@@ -49,6 +47,7 @@ class IEMBus
     public:
 
         twai_message_t message;
+        uint32_t alerts_triggered;
 
         IEMBus();
         bool init(uint8_t rx_pin, uint8_t tx_pin, uint8_t polling_rate_ms, CANCode_t rx_code, CANMask_t rx_mask, twai_mode_t mode);

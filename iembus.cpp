@@ -13,7 +13,7 @@ bool IEMBus::init(uint8_t rx_pin = 43, uint8_t tx_pin = 44, uint8_t polling_rate
     // EDIT THESE FOR NOW, DEFINE FUNCTIONS TO SET THESE - TO:DO
     g_config = TWAI_GENERAL_CONFIG_DEFAULT((gpio_num_t)TX_PIN, (gpio_num_t)RX_PIN, mode);
     t_config = TWAI_TIMING_CONFIG_250KBITS();
-    if (rx_code = AllCode) {
+    if (rx_code == AllCode) {
         f_config = TWAI_FILTER_CONFIG_ACCEPT_ALL();
     }
     else {
@@ -21,7 +21,8 @@ bool IEMBus::init(uint8_t rx_pin = 43, uint8_t tx_pin = 44, uint8_t polling_rate
         f_config.acceptance_mask = rx_mask;
         f_config.single_filter = true;
     }
-    //
+    
+    f_config = TWAI_FILTER_CONFIG_ACCEPT_ALL();
 
     if (twai_driver_install(&g_config, &t_config, &f_config) == ESP_OK) {
         ready = true;
