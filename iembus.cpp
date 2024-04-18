@@ -111,11 +111,30 @@ void IEMBus::print_msg_bytes() {
     Serial.println("");
 }
 
+void IEMBus::float2array(uint8_t data_array[4], float data_float) {
+    uint32_t data_int;
+    memcpy(&data_int, &data_float, sizeof data_int);
+    for (int i = 0; i < 4; i++) {
+        data_array[i] = (uint8_t) (data_int >> i*8) & 0xFF;
+    }
+}
+
+float IEMBus::array2float(uint8_t data_array[4]) {
+    uint32_t data_int = 0;
+    for (int i = 0; i < 4; i++) {
+        data_int = data_int | (data_array[i] << i*8);
+    }
+    float data_float;
+    memcpy(&data_float, &data_int, sizeof data_float);
+    return data_float;
+}
+
 // Message maker
-twai_message_t IEMBus::ready_msg(CANID_t message_id, uint32_t data_length, uint8_t data[8]) {
+twai_message_t IEMBus::ready_msg(CANID_t message_id, uint8_t data_array[4]) {
     twai_message_t tx_message;
     tx_message.identifier = (uint32_t) message_id;
-    tx_message.data_length_code = data_length; 
+    tx_message.data_length_code = 4;
+    tx_message.data = data_array;
 
     return tx_message;
 }
