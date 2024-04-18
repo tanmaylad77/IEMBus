@@ -147,4 +147,5 @@ bool IEMBus::transmit(twai_message_t tx_message) {
     } else {
         Serial.println("[ERROR] Could not transmit");
     }
+    return false;
 }
