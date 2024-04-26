@@ -30,11 +30,29 @@ int readADC(uint8_t address) {
   return raw_adc;
 }
 
+int readADC10b(uint8_t address) {
+  unsigned int data[2];
+  Wire.beginTransmission(Addr);
+  Wire.write(0x00);
+  Wire.endTransmission();
+    Wire.requestFrom(Addr, 2);
+  if(Wire.available() == 2)
+  {
+    data[0] = Wire.read();
+    data[1] = Wire.read();
+  }
+  int raw_adc = ((data[0] & 0x0F) * 256) + data[1];
+  return raw_adc;
+}
+
 // get current - MUST TUNE THIS
 float getCurrent(float ref_5v = 4.52) {
   return  50.0 * ((ref_5v / 256) * readADC(current_adc_addr)) / 20.0;
 }
 
+float getCurrent10b(float ref_5v = 4.52) {
+  return  50.0 * ((ref_5v / 1023) * readADC10b(current_adc_addr)) / 20.0;
+}
 // get voltage - MUST TUNE THIS
 float getVoltage(float ref_5v = 4.52) {
   return 17 * ((ref_5v / 256) * readADC(voltage_adc_addr));
